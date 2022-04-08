@@ -1,1 +1,2 @@
 # Funstagram
+Author- Soumay Agarwal
