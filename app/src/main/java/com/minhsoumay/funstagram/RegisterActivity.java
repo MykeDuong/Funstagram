@@ -3,11 +3,15 @@ package com.minhsoumay.funstagram;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +29,9 @@ import java.util.HashMap;
 
 public class RegisterActivity extends AppCompatActivity {
 
+    Context context;
+    Activity activity;
+
     private EditText username;
     private EditText name;
     private EditText email;
@@ -35,11 +42,15 @@ public class RegisterActivity extends AppCompatActivity {
     private DatabaseReference mRootRef;
     private FirebaseAuth mAuth;
 
+    ProgressDialog pd;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         FirebaseApp.initializeApp(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        context = getApplicationContext();
+        activity = this;
 
         username = findViewById(R.id.username);
         name = findViewById(R.id.name);
@@ -47,6 +58,8 @@ public class RegisterActivity extends AppCompatActivity {
         password = findViewById(R.id.password);
         register = findViewById(R.id.registration_confirm);
         loginUser = findViewById(R.id.login_user);
+
+        pd = new ProgressDialog(this);
 
         mRootRef = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
@@ -82,31 +95,32 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void registerUser(String username, String name, String email, String password) {
-        mAuth.createUserWithEmailAndPassword(email, password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+
+        pd.setMessage("Please wait...");
+        pd.show();
+
+        mAuth.createUserWithEmailAndPassword(email, password).addOnSuccessListener(this, new OnSuccessListener<AuthResult>() {
             @Override
             public void onSuccess(AuthResult authResult) {
+                System.out.println("Creating map...");
                 HashMap<String, Object> map = new HashMap<String, Object>();
                 map.put("name", name);
                 map.put("email", email);
                 map.put("username", username);
                 map.put("id", mAuth.getCurrentUser().getUid());
 
-                mRootRef.child("Users").child(mAuth.getCurrentUser().getUid()).setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()){
-                            Toast.makeText(RegisterActivity.this, "Update the profile for better experience", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-                            intent.addFlags( Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            startActivity(intent);
-                            finish();
-                        }
-                    }
-                });
+                mRootRef.child("Users").child(mAuth.getCurrentUser().getUid()).setValue(map);
+                Toast.makeText(activity, "Update the profile for better experience", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                //intent.addFlags( Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
+                pd.dismiss();
             }
-        }).addOnFailureListener(new OnFailureListener() {
+        }).addOnFailureListener(activity, new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
+                pd.dismiss();
                 Toast.makeText(RegisterActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
