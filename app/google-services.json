@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "820691433463",
+    "project_id": "funstagram-a72d7",
+    "storage_bucket": "funstagram-a72d7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:820691433463:android:3c397ec2c76749c43d20f2",
+        "android_client_info": {
+          "package_name": "com.minhsoumay.funstagram"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "820691433463-dnerhrivlip082vtf7cssrvtn5dnida7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDH7x1NnU-dfrSX9EyhPzdPGL8ZDKZI5x0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "820691433463-dnerhrivlip082vtf7cssrvtn5dnida7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

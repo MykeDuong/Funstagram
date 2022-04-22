@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Funstagram</string>
+
+
+    <!-- Log In activity. -->
+    <string name="login_button">Log In</string>
+    <string name="register_button">Register</string>
+
+</resources>
