@@ -1,4 +1,4 @@
-package com.example.funstagram;
+package com.minhsoumay.funstagram;
 
 import androidx.appcompat.app.AppCompatActivity;
 
