@@ -112,7 +112,7 @@ public class RegisterActivity extends AppCompatActivity {
                 mRootRef.child("Users").child(mAuth.getCurrentUser().getUid()).setValue(map);
                 Toast.makeText(activity, "Update the profile for better experience", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-                //intent.addFlags( Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.addFlags( Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 finish();
                 pd.dismiss();
