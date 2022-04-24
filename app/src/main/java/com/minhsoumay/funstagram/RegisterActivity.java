@@ -108,6 +108,8 @@ public class RegisterActivity extends AppCompatActivity {
                 map.put("email", email);
                 map.put("username", username);
                 map.put("id", mAuth.getCurrentUser().getUid());
+                map.put("bio", "");
+                map.put("imageURL", "default");
 
                 mRootRef.child("Users").child(mAuth.getCurrentUser().getUid()).setValue(map);
                 Toast.makeText(activity, "Update the profile for better experience", Toast.LENGTH_SHORT).show();
