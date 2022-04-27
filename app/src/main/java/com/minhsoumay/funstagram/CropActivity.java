@@ -18,6 +18,8 @@ public class CropActivity extends CropImageActivity {
         cropImageView = findViewById(R.id.crop_image_view);
 
         setCropImageView(cropImageView);
+
+        // cropImageView.setOnCropImageCompleteListener()
     }
 
 }
