@@ -39,6 +39,7 @@ import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.annotation.Nullable;
 
@@ -46,6 +47,8 @@ public class PostActivity extends AppCompatActivity {
 
     private Uri imageUri;
     private String imageUrl;
+    StorageTask uploadTask;
+    StorageReference storageReference;
 
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private File photoFile;
@@ -66,6 +69,9 @@ public class PostActivity extends AppCompatActivity {
         post = findViewById(R.id.post);
         description = findViewById(R.id.description);
 
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReference("posts");
+
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -82,49 +88,54 @@ public class PostActivity extends AppCompatActivity {
                 upload();
             }
         });
-
-        //CropImageActivity.start(PostActivity.this);
     }
 
     private void upload() {
-        ProgressDialog pd = new ProgressDialog(this);
-        pd.setMessage("Uploading");
-        pd.show();
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Posting");
+        progressDialog.show();
 
-        if (imageUri != null) {
-            StorageReference filePath = FirebaseStorage.getInstance().getReference("Posts").child(System.currentTimeMillis() + "." + getFileExtension(imageUri));
-            StorageTask uploadTask = filePath.putFile(imageUri);
+        System.out.println(imageUri);
+        if (imageUri != null){
+            System.out.println(storageReference);
+            StorageReference fileReference = storageReference.child(System.currentTimeMillis() + "." + getFileExtension(imageUri));
 
+            uploadTask = fileReference.putFile(imageUri);
             uploadTask.continueWithTask(new Continuation() {
                 @Override
                 public Object then(@NonNull Task task) throws Exception {
-                    if (task.isSuccessful()) {
+                    if (!task.isSuccessful()){
                         throw task.getException();
                     }
-                    return filePath.getDownloadUrl();
+                    System.out.println("complete");
+                    return  fileReference.getDownloadUrl();
                 }
             }).addOnCompleteListener(new OnCompleteListener<Uri>() {
                 @Override
-                public void onComplete(@NonNull Task task) {
-                    URI downloadUri = (URI) task.getResult();
-                    imageUrl = downloadUri.toString();
+                public void onComplete(@NonNull Task<Uri> task) {
+                    if (task.isSuccessful()){
+                        Uri downloadUri = task.getResult();
+                        imageUrl = downloadUri.toString();
 
-                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Posts");
-                    String postId = ref.push().getKey();
+                        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Posts");
 
-                    HashMap<String, Object> map = new HashMap<String, Object>();
-                    map.put("postid", postId);
-                    map.put("imageurl", imageUrl);
-                    map.put("description", description.getText().toString());
-                    map.put("publisher", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                        String postid = reference.push().getKey();
 
-                    ref.child(postId).setValue(map);
+                        HashMap<String , Object> hashMap = new HashMap<>();
+                        hashMap.put("postid" , postid);
+                        hashMap.put("postimage" , imageUrl);
+                        hashMap.put("description" , description.getText().toString());
+                        hashMap.put("publisher" , FirebaseAuth.getInstance().getCurrentUser().getUid());
 
-                    // DatabaseReference mHashTagRef = FirebaseDatabase.getInstance().getReference().child("HashTags");
+                        reference.child(postid).setValue(hashMap);
 
-                    pd.dismiss();
-                    startActivity(new Intent(PostActivity.this, MainActivity.class));
-                    finish();
+                        progressDialog.dismiss();
+
+                        startActivity(new Intent(PostActivity.this , MainActivity.class));
+                        finish();
+                    } else {
+                        Toast.makeText(PostActivity.this, "Failed!", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -133,9 +144,9 @@ public class PostActivity extends AppCompatActivity {
                 }
             });
         } else {
-            pd.dismiss();
-            Toast.makeText(this, "No image was selected!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "No image selected!", Toast.LENGTH_SHORT).show();
         }
+
     }
 
     private String getFileExtension(Uri imageUri) {
