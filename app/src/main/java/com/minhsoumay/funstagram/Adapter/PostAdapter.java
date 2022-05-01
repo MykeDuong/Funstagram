@@ -66,6 +66,42 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.Viewholder>{
 
             }
         });
+
+        isSaved(post.getPost_id(), holder.save);
+
+        holder.save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (holder.save.getTag().equals("save")) {
+                    FirebaseDatabase.getInstance().getReference().child("Saves")
+                            .child(firebaseUser.getUid()).child(post.getPost_id()).setValue(true);
+                } else {
+                    FirebaseDatabase.getInstance().getReference().child("Saves")
+                            .child(firebaseUser.getUid()).child(post.getPost_id()).removeValue();
+                }
+            }
+        });
+    }
+
+
+    private void isSaved (final String postId, final ImageView image) {
+        FirebaseDatabase.getInstance().getReference().child("Saves").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.child(postId).exists()) {
+                    image.setImageResource(R.drawable.ic_save_black);
+                    image.setTag("saved");
+                } else {
+                    image.setImageResource(R.drawable.ic_save);
+                    image.setTag("save");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     @Override
