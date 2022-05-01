@@ -46,6 +46,7 @@ public class HomeFragment extends Fragment {
 
         postList = new ArrayList<>();
         postAdapter = new PostAdapter(getContext(), postList);
+        System.out.println(postAdapter);
         recyclerViewPosts.setAdapter(postAdapter);
         followingList = new ArrayList<>();
 
@@ -63,7 +64,7 @@ public class HomeFragment extends Fragment {
                 for(DataSnapshot snapshot:datasnapshot.getChildren()){
                     followingList.add(snapshot.getKey());
                 }
-
+                followingList.add(FirebaseAuth.getInstance().getCurrentUser().getUid());
                 readPosts();
             }
 
@@ -80,7 +81,7 @@ public class HomeFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 postList.clear();
                 for(DataSnapshot snap:snapshot.getChildren()){
-                    Post post = snapshot.getValue(Post.class);
+                    Post post = snap.getValue(Post.class);
 
                     for(String id:followingList){
                         if(post.getPublisher().equals(id)){
