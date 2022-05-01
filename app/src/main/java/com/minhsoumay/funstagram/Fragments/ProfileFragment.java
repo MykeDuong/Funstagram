@@ -1,9 +1,13 @@
 package com.minhsoumay.funstagram.Fragments;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,17 +16,20 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.minhsoumay.funstagram.Adapter.PhotoAdapter;
 import com.minhsoumay.funstagram.Model.Post;
 import com.minhsoumay.funstagram.Model.User;
 import com.minhsoumay.funstagram.R;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -30,9 +37,17 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProfileFragment extends Fragment {
 
+
+    private RecyclerView recyclerViewSaves;
+    private PhotoAdapter postAdapterSaves;
+    private List<Post> mySavedPosts;
+
+    private RecyclerView recyclerView;
+
+    private PhotoAdapter photoAdapter;
     private List<Post> myPhotoList;
 
-    private CircleImageView imageProfile;
+    private ImageView imageProfile;
     private ImageView options;
     private TextView followers;
     private TextView following;
@@ -52,8 +67,19 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        // Inflate the layout for this fragment probably because of picasso
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
+
+        fUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        String data = getContext().getSharedPreferences("profile", Context.MODE_PRIVATE).getString("profileId", "none");
+
+        if (data.equals("none")) {
+            profileId = fUser.getUid();
+        } else {
+            profileId = data;
+            getContext().getSharedPreferences("PROFILE", Context.MODE_PRIVATE).edit().clear().apply();
+        }
 
         imageProfile = view.findViewById(R.id.image_profile);
         options = view.findViewById(R.id.options);
@@ -67,10 +93,124 @@ public class ProfileFragment extends Fragment {
         savedPictures = view.findViewById(R.id.saved_pictures);
         editProfile = view.findViewById(R.id.edit_profile);
 
-        userInfo();
+        recyclerView = view.findViewById(R.id.recucler_view_pictures);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        myPhotoList = new ArrayList<>();
+        photoAdapter = new PhotoAdapter(getContext(), myPhotoList);
+        recyclerView.setAdapter(photoAdapter);
+
+        recyclerViewSaves = view.findViewById(R.id.recucler_view_saved);
+        recyclerViewSaves.setHasFixedSize(true);
+        recyclerViewSaves.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        mySavedPosts = new ArrayList<>();
+        postAdapterSaves = new PhotoAdapter(getContext(), mySavedPosts);
+        recyclerViewSaves.setAdapter(postAdapterSaves);
+
+        //This was giving null exception error
+        //userInfo();
         getFollowersAndFollowingCount();
         getPostCount();
+        myPhotos();
+        getSavedPosts();
+
+        if(profileId.equals(fUser.getUid())){
+            editProfile.setText("EditProfile");
+        }
+        else{
+            checkFollowingStatus();
+        }
+
+        editProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String btnText = editProfile.getText().toString();
+
+                if (btnText.equals("Edit profile")) {
+                    //startActivity(new Intent(getContext(), EditProfileActivity.class));
+                } else {
+                    if (btnText.equals("follow")) {
+                        FirebaseDatabase.getInstance().getReference().child("Follow").child(fUser.getUid())
+                                .child("following").child(profileId).setValue(true);
+
+                        FirebaseDatabase.getInstance().getReference().child("Follow").child(profileId)
+                                .child("followers").child(fUser.getUid()).setValue(true);
+                    } else {
+                        FirebaseDatabase.getInstance().getReference().child("Follow").child(fUser.getUid())
+                                .child("following").child(profileId).removeValue();
+
+                        FirebaseDatabase.getInstance().getReference().child("Follow").child(profileId)
+                                .child("followers").child(fUser.getUid()).removeValue();
+                    }
+                }
+            }
+        });
+        recyclerView.setVisibility(View.VISIBLE);
+        recyclerViewSaves.setVisibility(View.GONE);
+
+        myPictures.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recyclerView.setVisibility(View.VISIBLE);
+                recyclerViewSaves.setVisibility(View.GONE);
+            }
+        });
+
+        savedPictures.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recyclerView.setVisibility(View.GONE);
+                recyclerViewSaves.setVisibility(View.VISIBLE);
+            }
+        });
+
+
         return view;
+    }
+
+    private void getSavedPosts() {
+
+        final List<String> savedIds = new ArrayList<>();
+
+        FirebaseDatabase.getInstance().getReference().child("Saves").child(fUser.getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    savedIds.add(snapshot.getKey());
+                }
+
+                FirebaseDatabase.getInstance().getReference().child("Posts").addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot1) {
+                        mySavedPosts.clear();
+
+                        for (DataSnapshot snapshot1 : dataSnapshot1.getChildren()) {
+                            Post post = snapshot1.getValue(Post.class);
+
+                            for (String id : savedIds) {
+                                if (post.getPost_id().equals(id)) {
+                                    mySavedPosts.add(post);
+                                }
+                            }
+                        }
+
+                        postAdapterSaves.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
     private void myPhotos() {
@@ -169,6 +309,28 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+
+    }
+
+
+
+    private void checkFollowingStatus() {
+
+        FirebaseDatabase.getInstance().getReference().child("Follow").child(fUser.getUid()).child("following").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.child(profileId).exists()) {
+                    editProfile.setText("following");
+                } else {
+                    editProfile.setText("follow");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
     }
 }
