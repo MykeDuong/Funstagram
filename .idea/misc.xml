@@ -11,9 +11,10 @@
         <entry key="..\:/Works/CSC 317/Funstagram/app/src/main/res/layout/fragment_search.xml" value="0.21208963001563313" />
         <entry key="..\:/Works/CSC 317/Funstagram2/app/src/main/res/drawable/button_background.xml" value="0.21" />
         <entry key="..\:/Works/CSC 317/Funstagram2/app/src/main/res/drawable/edit_text_background.xml" value="0.2035" />
+        <entry key="app/src/main/res/drawable-anydpi/ic_liked.xml" value="0.2005" />
         <entry key="app/src/main/res/layout/activity_crop.xml" value="0.2953703703703704" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.2953703703703704" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.2953703703703704" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_post.xml" value="0.2953703703703704" />
         <entry key="app/src/main/res/layout/activity_start.xml" value="0.2953703703703704" />
         <entry key="app/src/main/res/layout/fragment_help.xml" value="0.2907692307692308" />

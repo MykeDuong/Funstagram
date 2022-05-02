@@ -108,7 +108,7 @@ public class ProfileFragment extends Fragment {
         recyclerViewSaves.setAdapter(postAdapterSaves);
 
         //This was giving null exception error
-        //userInfo();
+        userInfo();
         getFollowersAndFollowingCount();
         getPostCount();
         myPhotos();
@@ -188,7 +188,7 @@ public class ProfileFragment extends Fragment {
                             Post post = snapshot1.getValue(Post.class);
 
                             for (String id : savedIds) {
-                                if (post.getPost_id().equals(id)) {
+                                if (post.getPostid().equals(id)) {
                                     mySavedPosts.add(post);
                                 }
                             }
@@ -292,6 +292,7 @@ public class ProfileFragment extends Fragment {
     }
 
     private void userInfo() {
+
         FirebaseDatabase.getInstance().getReference().child("Users").child(profileId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -308,7 +309,6 @@ public class ProfileFragment extends Fragment {
 
             }
         });
-
 
     }
 

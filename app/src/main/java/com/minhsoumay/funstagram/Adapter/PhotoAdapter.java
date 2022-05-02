@@ -36,7 +36,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         final Post post = mPosts.get(position);
-        Picasso.get().load(post.getImage_URL()).placeholder(R.mipmap.ic_launcher).into(holder.postImage);
+        Picasso.get().load(post.getImageurl()).placeholder(R.mipmap.ic_launcher).into(holder.postImage);
 
     }
 

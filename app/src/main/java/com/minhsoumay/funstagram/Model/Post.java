@@ -2,17 +2,17 @@ package com.minhsoumay.funstagram.Model;
 
 public class Post {
     private String description;
-    private String image_URL;
-    private String post_id;
+    private String imageurl;
+    private String postid;
     private String publisher;
 
     public Post() {
     }
 
-    public Post(String description, String image_URL, String post_id, String publisher) {
+    public Post(String description, String imageurl, String postid, String publisher) {
         this.description = description;
-        this.image_URL = image_URL;
-        this.post_id = post_id;
+        this.imageurl = imageurl;
+        this.postid = postid;
         this.publisher = publisher;
     }
 
@@ -24,20 +24,20 @@ public class Post {
         this.description = description;
     }
 
-    public String getImage_URL() {
-        return image_URL;
+    public String getImageurl() {
+        return imageurl;
     }
 
-    public void setImage_URL(String image_URL) {
-        this.image_URL = image_URL;
+    public void setImageurl(String imageurl) {
+        this.imageurl = imageurl;
     }
 
-    public String getPost_id() {
-        return post_id;
+    public String getPostid() {
+        return postid;
     }
 
-    public void setPost_id(String post_id) {
-        this.post_id = post_id;
+    public void setPostid(String postid) {
+        this.postid = postid;
     }
 
     public String getPublisher() {
