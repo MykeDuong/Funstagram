@@ -226,8 +226,8 @@ public class ProfileFragment extends Fragment {
                         myPhotoList.add(post);
                     }
                 }
-
                 Collections.reverse(myPhotoList);
+                photoAdapter.notifyDataSetChanged();
             }
 
             @Override

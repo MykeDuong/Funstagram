@@ -12,4 +12,5 @@
     <color name="primary_color">#455cde</color>
     <color name="primary_dark_color">#000D3D</color>
     <color name="accent_color">#C2BDBF</color>
+    <color name="blackish">#505245</color>
 </resources>

@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
                 HelpFragment frag1 = new HelpFragment();
                 frag1.setContainerActivity(this);
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.outer_layout, frag1);
+                transaction.replace(R.id.fragment_container, frag1);
                 transaction.addToBackStack(null);
                 transaction.commit();
             }

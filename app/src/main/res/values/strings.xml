@@ -6,4 +6,9 @@
     <string name="register_button">Register</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="help_body_para">Funstagram is essentially a basic clone of Instagram. It has tries to mimic its functionality. In this
+    app we have the home page which shows all the images that the user has taken and the images that are taken by other people followed
+    by the user. Here we have the ability to like and save the post. We can also share the post with our the contacts in our phone through mail.
+    The profile fragment shows information about the user. It allows us it to see the number of his/her followers and the number of people he follows.
+    We can also see our saved images in the profile page.</string>
 </resources>

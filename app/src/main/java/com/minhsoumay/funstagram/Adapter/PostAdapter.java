@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -104,6 +105,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.Viewholder>{
                 }
             }
         });
+
     }
 
 
