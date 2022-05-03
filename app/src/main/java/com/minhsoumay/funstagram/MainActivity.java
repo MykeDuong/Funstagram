@@ -44,11 +44,11 @@ public class MainActivity extends AppCompatActivity {
                         selectorFragment = null;
                         startActivity(new Intent(MainActivity.this, PostActivity.class));
                         break;
-                    case R.id.nav_heart:
-                        selectorFragment = new NotificationFragment();
-                        break;
                     case R.id.nav_profile:
                         selectorFragment = new ProfileFragment();
+                        break;
+                    case R.id.nav_help:
+                        selectorFragment = new HelpFragment();
                         break;
                 }
 
@@ -70,18 +70,5 @@ public class MainActivity extends AppCompatActivity {
         } else {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
         }
-
-        Button button = (Button) findViewById(R.id.help_button);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                HelpFragment frag1 = new HelpFragment();
-                frag1.setContainerActivity(this);
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.fragment_container, frag1);
-                transaction.addToBackStack(null);
-                transaction.commit();
-            }
-        });
     }
 }
