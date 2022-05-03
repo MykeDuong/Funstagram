@@ -20,6 +20,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.minhsoumay.funstagram.Model.Post;
 import com.minhsoumay.funstagram.Model.User;
 import com.minhsoumay.funstagram.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -45,6 +46,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.Viewholder>{
     public void onBindViewHolder(@NonNull Viewholder holder, int position) {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         Post post = mposts.get(position);
+
+        //Picasso.get().load(post.getImage_URL()).placeholder(R.drawable.placeholder).into(holder.postImage);
 
         FirebaseDatabase.getInstance().getReference().child("Users").child(post.getPublisher()).addValueEventListener(new ValueEventListener() {
             @Override
