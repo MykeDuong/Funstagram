@@ -95,7 +95,7 @@ public class PostActivity extends AppCompatActivity {
         progressDialog.setMessage("Posting");
         progressDialog.show();
 
-        System.out.println(imageUri);
+        System.out.println(imageUri + "the im uri");
         if (imageUri != null){
             System.out.println(storageReference);
             StorageReference fileReference = storageReference.child(System.currentTimeMillis() + "." + getFileExtension(imageUri));

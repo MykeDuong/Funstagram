@@ -8,8 +8,11 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.minhsoumay.funstagram.Fragments.HelpFragment;
 import com.minhsoumay.funstagram.Fragments.HomeFragment;
 import com.minhsoumay.funstagram.Fragments.NotificationFragment;
 import com.minhsoumay.funstagram.Fragments.ProfileFragment;
@@ -58,7 +61,27 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+        Bundle intent = getIntent().getExtras();
+        if (intent != null) {
+            String profileid = intent.getString("publisherId");
+            getSharedPreferences("profile", MODE_PRIVATE).edit().putString("profileId", profileid).apply();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ProfileFragment()).commit();
+            bottomNavigationView.setSelectedItemId(R.id.nav_profile);
+        } else {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
+        }
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
+        Button button = (Button) findViewById(R.id.help_button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                HelpFragment frag1 = new HelpFragment();
+                frag1.setContainerActivity(this);
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragment_container, frag1);
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
     }
 }

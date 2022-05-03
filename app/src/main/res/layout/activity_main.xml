@@ -4,12 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
-    
+    tools:context=".MainActivity"
+    android:id="@+id/outer_layout">
+
     <FrameLayout
+        android:id="@+id/fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/fragment_container"/>
+        android:layout_height="match_parent" />
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -27,5 +28,12 @@
             app:menu="@menu/bottom_menu"/>
 
     </com.google.android.material.appbar.AppBarLayout>
+
+    <Button
+        android:id="@+id/help_button"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:text="HELP" />
+
 
 </RelativeLayout>

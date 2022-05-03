@@ -9,10 +9,9 @@ public class User {
     private String id;
 
     public User() {
-
     }
 
-    public User(String fullname, String email, String username, String bio, String imageurl, String id) {
+    public User(String name, String email, String username, String bio, String imageurl, String id) {
         this.name = name;
         this.email = email;
         this.username = username;
