@@ -48,7 +48,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.Viewholder>{
     public void onBindViewHolder(@NonNull Viewholder holder, int position) {
 
         Post post = mposts.get(position);
-        Picasso.get().load(post.getImageurl()).into(holder.postImage);
+        Picasso.get().load(post.getPostimage()).into(holder.postImage);
         holder.description.setText(post.getDescription());
 
         FirebaseDatabase.getInstance().getReference().child("Users").child(post.getPublisher()).addValueEventListener(new ValueEventListener() {
@@ -56,8 +56,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.Viewholder>{
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user = snapshot.getValue(User.class);
                 System.out.println(user.getImageurl() + "the image url in post adapt");
-                if (user.getImageurl() != null) {
-                    if (user.getImageurl().equals("default")) {
+                    if (user.getImageurl() == null) {
                         holder.imageProfile.setImageResource(R.mipmap.ic_launcher);
                     } else {
                         Picasso.get().load(user.getImageurl()).placeholder(R.mipmap.ic_launcher).into(holder.imageProfile);
@@ -65,7 +64,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.Viewholder>{
                     holder.username.setText(user.getUsername());
                     holder.author.setText(user.getName());
                 }
-            }
+
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
