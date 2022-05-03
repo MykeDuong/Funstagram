@@ -97,22 +97,28 @@ public class SearchFragment extends Fragment {
     }
 
     private void searchUser(String s) {
-        Query query = FirebaseDatabase.getInstance().getReference().child("Users")
-                .orderByChild("username").startAt(s).endAt(s + "\uf8ff");
+        System.out.println(s);
+        Query query = FirebaseDatabase.getInstance().getReference().child("Users").orderByChild("username").startAt(s)
+                .endAt(s + "\uf8ff");
 
         query.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 mUsers.clear();
-                for (DataSnapshot child : snapshot.getChildren()) {
-                    User user = child.getValue(User.class);
+
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    User user = snapshot.getValue(User.class);
                     mUsers.add(user);
+                    System.out.println(user.getUsername());
+                    System.out.println(mUsers);
                 }
+
                 userAdapter.notifyDataSetChanged();
+
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });

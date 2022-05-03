@@ -17,13 +17,13 @@
         android:title=""/>
 
     <item
-        android:id="@+id/nav_heart"
-        android:icon="@drawable/ic_heart"
+        android:id="@+id/nav_profile"
+        android:icon="@drawable/ic_person"
         android:title=""/>
 
     <item
-        android:id="@+id/nav_profile"
-        android:icon="@drawable/ic_person"
+        android:id="@+id/nav_help"
+        android:icon="@drawable/ic_help"
         android:title=""/>
 
 </menu>

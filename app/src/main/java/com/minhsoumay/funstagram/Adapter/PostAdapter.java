@@ -64,6 +64,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.Viewholder>{
         Picasso.get().load(post.getPostimage()).into(holder.postImage);
         holder.description.setText(post.getDescription());
 
+        //Picasso.get().load(post.getImage_URL()).placeholder(R.drawable.placeholder).into(holder.postImage);
+
         FirebaseDatabase.getInstance().getReference().child("Users").child(post.getPublisher()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

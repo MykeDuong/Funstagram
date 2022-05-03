@@ -29,11 +29,5 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <Button
-        android:id="@+id/help_button"
-        android:layout_width="80dp"
-        android:layout_height="wrap_content"
-        android:text="HELP" />
-
 
 </RelativeLayout>
