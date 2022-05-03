@@ -1,6 +1,12 @@
 package com.minhsoumay.funstagram.Adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +15,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -18,11 +26,15 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.minhsoumay.funstagram.Fragments.ShareFragment;
 import com.minhsoumay.funstagram.Model.Post;
 import com.minhsoumay.funstagram.Model.User;
 import com.minhsoumay.funstagram.R;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.Viewholder>{
@@ -30,6 +42,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.Viewholder>{
     private Context mcontext;
     private List<Post> mposts;
     private FirebaseUser firebaseUser;
+    private ArrayList<File> f_list = new ArrayList<File>();
 
     public PostAdapter(Context mcontext, List<Post> mposts) {
         this.mcontext = mcontext;
@@ -105,6 +118,31 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.Viewholder>{
             }
         });
 
+        holder.share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                System.out.println("Clicked Share");
+                ShareFragment sf = new ShareFragment();
+                ImageView imageView = (ImageView) holder.postImage;
+                Bundle bundle = new Bundle();
+                BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
+                Bitmap bitmap = drawable.getBitmap();
+                AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                Context c = activity.getBaseContext();
+                File photo_file = getMainDirectoryName(c);
+                File final_photo_f = store(bitmap, "JPEG_21.jpg", photo_file);
+                f_list.add(final_photo_f);
+                System.out.println(final_photo_f);
+                bundle.putSerializable("ImageFile", final_photo_f);
+                sf.setArguments(bundle);
+
+                FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragment_container, sf);
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
+
     }
 
 
@@ -141,7 +179,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.Viewholder>{
         public ImageView imageProfile;
         public ImageView postImage;
         public ImageView like;
-        public ImageView comment;
+        public ImageView share;
         public ImageView save;
         public ImageView more;
 
@@ -156,7 +194,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.Viewholder>{
             imageProfile = itemView.findViewById(R.id.image_profile);
             postImage = itemView.findViewById(R.id.post_image);
             like = itemView.findViewById(R.id.like_but);
-            comment = itemView.findViewById(R.id.comment);
+            share = itemView.findViewById(R.id.share);
             save = itemView.findViewById(R.id.save);
             more = itemView.findViewById(R.id.more);
             username = itemView.findViewById(R.id.username);
@@ -170,6 +208,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.Viewholder>{
     }
 
     private void isLiked(String postId, final ImageView imageView) {
+        System.out.println("like clicked");
         System.out.println(postId + "in like");
         if (postId != null) {
             FirebaseDatabase.getInstance().getReference().child("Likes").child(postId).addValueEventListener(new ValueEventListener() {
@@ -206,5 +245,37 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.Viewholder>{
                 }
             });
         }
+    }
+
+    public static File store(Bitmap bm, String fileName, File saveFilePath) {
+        File dir = new File(saveFilePath.getAbsolutePath());
+        if (!dir.exists())
+            dir.mkdirs();
+        File file = new File(saveFilePath.getAbsolutePath(), fileName);
+        try {
+            FileOutputStream fOut = new FileOutputStream(file);
+            bm.compress(Bitmap.CompressFormat.JPEG, 85, fOut);
+            fOut.flush();
+            fOut.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return file;
+    }
+
+    /*
+     * This method is responsible for getting the main directory for
+     * storing.
+     */
+
+    public static File getMainDirectoryName(Context context) {
+        File mainDir = new File(
+                context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "Demo");
+
+        if (!mainDir.exists()) {
+            if (mainDir.mkdir())
+                Log.e("Create Directory", "Main Directory Created : " + mainDir);
+        }
+        return mainDir;
     }
 }

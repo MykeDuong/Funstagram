@@ -66,12 +66,12 @@
                 android:src="@drawable/ic_like"/>
 
             <ImageView
-                android:id="@+id/comment"
+                android:id="@+id/share"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@drawable/ic_comment"
+                android:layout_marginStart="10dp"
                 android:layout_toEndOf="@+id/like_but"
-                android:layout_marginStart="10dp"/>
+                android:src="@drawable/ic_shared" />
 
             <ImageView
                 android:id="@+id/save"

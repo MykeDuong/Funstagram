@@ -24,6 +24,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.minhsoumay.funstagram.Adapter.PhotoAdapter;
+import com.minhsoumay.funstagram.EditProfileActivity;
 import com.minhsoumay.funstagram.Model.Post;
 import com.minhsoumay.funstagram.Model.User;
 import com.minhsoumay.funstagram.R;
@@ -115,7 +116,7 @@ public class ProfileFragment extends Fragment {
         getSavedPosts();
 
         if(profileId.equals(fUser.getUid())){
-            editProfile.setText("EditProfile");
+            editProfile.setText("Edit profile");
         }
         else{
             checkFollowingStatus();
@@ -127,7 +128,7 @@ public class ProfileFragment extends Fragment {
                 String btnText = editProfile.getText().toString();
 
                 if (btnText.equals("Edit profile")) {
-                    //startActivity(new Intent(getContext(), EditProfileActivity.class));
+                    startActivity(new Intent(getContext(), EditProfileActivity.class));
                 } else {
                     if (btnText.equals("follow")) {
                         FirebaseDatabase.getInstance().getReference().child("Follow").child(fUser.getUid())
