@@ -8,13 +8,10 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.minhsoumay.funstagram.Fragments.HelpFragment;
 import com.minhsoumay.funstagram.Fragments.HomeFragment;
-import com.minhsoumay.funstagram.Fragments.NotificationFragment;
 import com.minhsoumay.funstagram.Fragments.ProfileFragment;
 import com.minhsoumay.funstagram.Fragments.SearchFragment;
 

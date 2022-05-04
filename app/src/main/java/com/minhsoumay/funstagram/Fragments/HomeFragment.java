@@ -1,3 +1,9 @@
+/*
+ * This class is our HomeFragment that represents the home page.
+ * Here we are able to see our posts as well as the posts of the
+ * people we follow. We can do various things here which include liking,
+ * saving and sharing a post.
+ */
 package com.minhsoumay.funstagram.Fragments;
 
 import android.os.Bundle;
@@ -30,11 +36,14 @@ public class HomeFragment extends Fragment {
     private List<Post> postList;
     private List<String> followingList;
 
-
+    /**
+     * This method is the on create view method
+     * which displays the content. Here we are setting
+     * various componenets.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         recyclerViewPosts = view.findViewById(R.id.recycler_view_posts);
         recyclerViewPosts.setHasFixedSize(true);
@@ -53,6 +62,11 @@ public class HomeFragment extends Fragment {
 
         return view;
     }
+
+    /**
+     * This method adds the values to the followingList for all the users
+     * that are followed by the current user.
+     */
 
     private void checkFollowingUsers() {
         FirebaseDatabase.getInstance().getReference().child("Follow").child(FirebaseAuth.getInstance()
@@ -74,6 +88,10 @@ public class HomeFragment extends Fragment {
         });
     }
 
+    /**
+     * This method is responsible for geting all the posts of the users in the
+     * following list and displaying them in the user's home page.
+     */
     private void readPosts() {
         FirebaseDatabase.getInstance().getReference().child("Posts").addValueEventListener(new ValueEventListener() {
             @Override

@@ -31,13 +31,6 @@
                     android:id="@+id/username"
                     android:textColor="@color/primary_dark_color"/>
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/options"
-                    android:src="@drawable/ic_options"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="15dp"/>
 
             </RelativeLayout>
 
@@ -177,7 +170,14 @@
                         android:layout_marginTop="5dp"
                         android:padding="1dp"
                         android:text="EDIT PROFILE"
+<<<<<<< HEAD
                         android:textSize="10dp" />
+=======
+                        android:textSize="10dp"
+                        android:backgroundTint="@color/pinkish_red"
+                        android:textColor="@color/blackish"
+                        android:id="@+id/edit_profile"/>
+>>>>>>> soma-branch
 
                 </LinearLayout>
 

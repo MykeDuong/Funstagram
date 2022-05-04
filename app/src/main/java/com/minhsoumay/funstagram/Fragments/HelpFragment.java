@@ -1,3 +1,7 @@
+/*
+ * This is the HelpFragment which represents the help page of Funstagram.
+ * It guides the user about the various features of the app.
+ */
 package com.minhsoumay.funstagram.Fragments;
 
 import android.os.Bundle;
@@ -20,6 +24,11 @@ public class HelpFragment extends Fragment {
     public void setContainerActivity(View.OnClickListener containerActivity) {
         this.containerActivity = containerActivity;
     }
+
+    /**
+     * This method is the on create view method
+     * which displays the content.
+     */
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

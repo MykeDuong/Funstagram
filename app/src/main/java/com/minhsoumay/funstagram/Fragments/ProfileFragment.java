@@ -1,3 +1,8 @@
+/*
+ * This class is our ProfileFragment that represents the profile page.
+ * Here we are able to see all of our own posts and our saved posts.
+ * Users are able to edit their profile here as well.
+ */
 package com.minhsoumay.funstagram.Fragments;
 
 import android.content.Context;
@@ -53,7 +58,6 @@ public class ProfileFragment extends Fragment {
     private List<Post> myPhotoList;
 
     private ImageView imageProfile;
-    private ImageView options;
     private TextView followers;
     private TextView following;
     private TextView posts;
@@ -70,6 +74,14 @@ public class ProfileFragment extends Fragment {
 
     private FirebaseUser fUser;
     String profileId;
+
+    /**
+     * This method is the on create view method
+     * which displays the content. Here we are setting
+     * various componenets and configuring the onClick
+     * method for the edit profile button, the
+     * saved pictures and our own posts or pictures.
+     */
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -89,7 +101,6 @@ public class ProfileFragment extends Fragment {
         }
 
         imageProfile = view.findViewById(R.id.image_profile);
-        options = view.findViewById(R.id.options);
         followers = view.findViewById(R.id.followers);
         following = view.findViewById(R.id.following);
         posts = view.findViewById(R.id.posts);
@@ -115,7 +126,6 @@ public class ProfileFragment extends Fragment {
         postAdapterSaves = new PhotoAdapter(getContext(), mySavedPosts);
         recyclerViewSaves.setAdapter(postAdapterSaves);
 
-        //This was giving null exception error
         userInfo();
         getFollowersAndFollowingCount();
         getPostCount();
@@ -198,6 +208,10 @@ public class ProfileFragment extends Fragment {
         return view;
     }
 
+    /**
+     * This method is responsible for storing all the saved posts by the user to
+     * the mySavedPosts Post List.
+     */
     private void getSavedPosts() {
 
         final List<String> savedIds = new ArrayList<>();
@@ -243,6 +257,11 @@ public class ProfileFragment extends Fragment {
 
     }
 
+    /**
+     * This method is responsible for storing all the user photos
+     * the myPhotoList Post List.
+     */
+
     private void myPhotos() {
 
         FirebaseDatabase.getInstance().getReference().child("Posts").addValueEventListener(new ValueEventListener() {
@@ -268,6 +287,11 @@ public class ProfileFragment extends Fragment {
 
     }
 
+    /**
+     * This method is responsible for getting and displaying the number of posts
+     * of the user.
+     */
+
     private void getPostCount() {
 
         FirebaseDatabase.getInstance().getReference().child("Posts").addValueEventListener(new ValueEventListener() {
@@ -290,6 +314,11 @@ public class ProfileFragment extends Fragment {
         });
 
     }
+
+    /**
+     * This method is responsible for getting and displaying the followers and the following
+     * count of the user.
+     */
 
     private void getFollowersAndFollowingCount() {
 
@@ -321,6 +350,10 @@ public class ProfileFragment extends Fragment {
 
     }
 
+    /**
+     * This method is responsible for getting and actually displaying all the user
+     * info.
+     */
     private void userInfo() {
 
         FirebaseDatabase.getInstance().getReference().child("Users").child(profileId)
@@ -344,7 +377,10 @@ public class ProfileFragment extends Fragment {
 
     }
 
-
+    /**
+     * This method is responsible for checking whether the current user
+     * is following a particular user or not.
+     */
 
     private void checkFollowingStatus() {
 
