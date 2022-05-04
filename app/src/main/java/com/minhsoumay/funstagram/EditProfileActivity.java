@@ -1,3 +1,8 @@
+/*
+ * This class is our EditProfileActivity which allows the user to edit
+ * his/her profile by changing the username, the profile image and the
+ * bio.
+ */
 package com.minhsoumay.funstagram;
 
 import androidx.annotation.NonNull;
@@ -52,7 +57,6 @@ public class EditProfileActivity extends AppCompatActivity {
     private CircleImageView imageProfile;
     private TextView save;
     private TextView changePhoto;
-    private EditText fullname;
     private EditText username;
     private EditText bio;
 
@@ -65,6 +69,15 @@ public class EditProfileActivity extends AppCompatActivity {
     static String currentPhotoPath;
     static boolean flag_new = false;
 
+    /**
+     * This method is the on create method
+     * which sets the content view and
+     * displays the content. Here we are doing the majority of the
+     * work by getting various component information from the firebase
+     * and setting them in their appropriate fields and then
+     * setting the onCLick property for changing the image, closing
+     * the page and saving.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,7 +87,6 @@ public class EditProfileActivity extends AppCompatActivity {
         imageProfile = findViewById(R.id.image_profile);
         save = findViewById(R.id.save);
         changePhoto = findViewById(R.id.change_photo);
-        fullname = findViewById(R.id.fullname);
         username = findViewById(R.id.username);
         bio = findViewById(R.id.bio);
 
@@ -85,7 +97,6 @@ public class EditProfileActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.getValue(User.class);
-                fullname.setText(user.getName());
                 username.setText(user.getUsername());
                 bio.setText(user.getBio());
                 Picasso.get().load(user.getImageurl()).into(imageProfile);
@@ -108,17 +119,13 @@ public class EditProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                // Ensure that there's a camera activity to handle the intent
                 if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                    // Create the File where the photo should go
                     File photoFile = null;
                     try {
                         photoFile = createImageFile();
                         currentPhotoPath = photoFile.getAbsolutePath();
                     } catch (IOException ex) {
-                        // Error occurred while creating the File
                     }
-                    // Continue only if the File was successfully created
                     if (photoFile != null) {
                         Uri photoURI = FileProvider.getUriForFile(getBaseContext(),
                                 "com.minhsoumay.funstagram",
@@ -132,12 +139,6 @@ public class EditProfileActivity extends AppCompatActivity {
             }
         });
 
-        imageProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
 
         save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -147,6 +148,12 @@ public class EditProfileActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * This function is used to create a image file in the form of a JPEG. It also
+     * uses the current date to create a unique file name each time.
+     * @return image
+     * @throws IOException
+     */
 
     public File createImageFile() throws IOException {
         // Create an image file name
@@ -161,14 +168,23 @@ public class EditProfileActivity extends AppCompatActivity {
         return image;
     }
 
+    /**
+     * This method is responsible for updating the username and the bio
+     * for a particular user on the firebase with the use of a HashMap.
+     */
+
     private void updateProfile() {
         HashMap<String, Object> map = new HashMap<>();
-        map.put("fullname", fullname.getText().toString());
         map.put("username", username.getText().toString());
         map.put("bio", bio.getText().toString());
 
         FirebaseDatabase.getInstance().getReference().child("Users").child(fUser.getUid()).updateChildren(map);
     }
+
+    /**
+     * This method is responsible for uploading the image to the firebase
+     * and obtaining the download URL.
+     */
 
     private void uploadImage() {
         final ProgressDialog pd = new ProgressDialog(this);
@@ -203,10 +219,14 @@ public class EditProfileActivity extends AppCompatActivity {
                 }
             });
         } else {
-            Toast.makeText(this, "No image selected", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "No Image Selected", Toast.LENGTH_SHORT).show();
         }
     }
 
+    /**
+     * The onActivityResult is responsible for actually setting up our image profile
+     * by utilizing the currentPhotoPath.
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -224,7 +244,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
             uploadImage();
         } else {
-            Toast.makeText(this, "Something went wrong!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Error!", Toast.LENGTH_SHORT).show();
         }
     }
 }

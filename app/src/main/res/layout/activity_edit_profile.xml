@@ -42,15 +42,15 @@
                     android:layout_toEndOf="@id/close"/>
 
                 <TextView
+                    android:id="@+id/save"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="SAVE"
-                    android:layout_marginRight="10dp"
-                    android:textSize="18sp"
-                    android:layout_centerVertical="true"
                     android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:text="SAVE"
                     android:textColor="@color/primary_dark_color"
-                    android:id="@+id/save"/>
+                    android:textSize="18sp" />
 
             </RelativeLayout>
 
@@ -80,13 +80,6 @@
             android:id="@+id/change_photo"
             android:textColor="@color/primary_dark_color"
             android:textSize="18sp"/>
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/fullname"
-            android:hint="Full name"
-            android:layout_marginTop="20dp"/>
 
         <EditText
             android:layout_width="match_parent"

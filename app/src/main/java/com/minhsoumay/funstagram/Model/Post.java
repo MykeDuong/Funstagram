@@ -1,3 +1,8 @@
+/*
+ * This class is for our Post. Here we have various getters and setters for the
+ * various components of our post in Funstagram.
+ */
+
 package com.minhsoumay.funstagram.Model;
 
 public class Post {

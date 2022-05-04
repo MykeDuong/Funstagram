@@ -26,12 +26,6 @@
                     android:layout_marginStart="-20dp"
                     android:src="@drawable/logo"/>
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_inbox"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginRight="10dp"/>
 
             </RelativeLayout>
 

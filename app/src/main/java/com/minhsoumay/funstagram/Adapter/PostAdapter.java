@@ -1,3 +1,7 @@
+/*
+ * This class is our PostAdapter which sets up each post of a user and the
+ * people he/she follows from the firebase in our Home page.
+ */
 package com.minhsoumay.funstagram.Adapter;
 
 import android.app.Activity;
@@ -44,6 +48,12 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.Viewholder>{
     private FirebaseUser firebaseUser;
     private ArrayList<File> f_list = new ArrayList<File>();
 
+    /**
+     * The constructor of our PostAdapter which sets up the
+     * context, the list of posts and the current firebase user.
+     * @param mcontext
+     * @param mposts
+     */
     public PostAdapter(Context mcontext, List<Post> mposts) {
         this.mcontext = mcontext;
         this.mposts = mposts;
@@ -57,14 +67,21 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.Viewholder>{
         return new PostAdapter.Viewholder(view);
     }
 
+    /**
+     * This is the onBindViewHolder method for our RecyclerView. It helps
+     * to attain all the majority of the work for our posts. Here, we
+     * load the posts by getting the appropriate ImageURL from the
+     * firebase and set the onClick methods for the like, share and
+     * save features.
+     * @param holder An instance of VieHolder
+     * @param position Particular index in the mPosts which is a Posts list
+     */
     @Override
     public void onBindViewHolder(@NonNull Viewholder holder, int position) {
 
         Post post = mposts.get(position);
         Picasso.get().load(post.getPostimage()).into(holder.postImage);
         holder.description.setText(post.getDescription());
-
-        //Picasso.get().load(post.getImage_URL()).placeholder(R.drawable.placeholder).into(holder.postImage);
 
         FirebaseDatabase.getInstance().getReference().child("Users").child(post.getPublisher()).addValueEventListener(new ValueEventListener() {
             @Override
@@ -123,7 +140,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.Viewholder>{
         holder.share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("Clicked Share");
                 ShareFragment sf = new ShareFragment();
                 ImageView imageView = (ImageView) holder.postImage;
                 Bundle bundle = new Bundle();
@@ -171,6 +187,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.Viewholder>{
         });
     }
 
+    /**
+     * This method is responsible for getting the no. of likes of a particular post
+     * from the firebase and then displaying it to the user.
+     */
+
     @Override
     public int getItemCount() {
         return mposts.size();
@@ -183,13 +204,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.Viewholder>{
         public ImageView like;
         public ImageView share;
         public ImageView save;
-        public ImageView more;
 
         public TextView username;
         public TextView num_likes;
         public TextView author;
-        public TextView num_comments;
-        EditText description;
+        TextView description;
 
         public Viewholder(@NonNull View itemView) {
             super(itemView);
@@ -198,20 +217,23 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.Viewholder>{
             like = itemView.findViewById(R.id.like_but);
             share = itemView.findViewById(R.id.share);
             save = itemView.findViewById(R.id.save);
-            more = itemView.findViewById(R.id.more);
             username = itemView.findViewById(R.id.username);
             num_likes = itemView.findViewById(R.id.total_likes);
             author = itemView.findViewById(R.id.author);
-            num_comments = itemView.findViewById(R.id.total_comments);
             description = itemView.findViewById(R.id.description);
 
 
         }
     }
 
+    /**
+     * This method is responsible for getting the no. of likes of a particular post
+     * from the firebase and then displaying it to the user.
+     * @param postId The id of a particular post
+     * @param imageView Provided ImageView for like whose like needs to be set
+     */
+
     private void isLiked(String postId, final ImageView imageView) {
-        System.out.println("like clicked");
-        System.out.println(postId + "in like");
         if (postId != null) {
             FirebaseDatabase.getInstance().getReference().child("Likes").child(postId).addValueEventListener(new ValueEventListener() {
                 @Override
@@ -233,6 +255,13 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.Viewholder>{
         }
     }
 
+    /**
+     * This method is responsible for getting the no. of likes of a particular post
+     * from the firebase and then displaying it to the user.
+     * @param postId The id of a particular post
+     * @param text Provided TextView for number of likes whose number of likes need to be set
+     */
+
     private void noOfLikes (String postId, final TextView text) {
         if (postId != null) {
             FirebaseDatabase.getInstance().getReference().child("Likes").child(postId).addValueEventListener(new ValueEventListener() {
@@ -248,6 +277,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.Viewholder>{
             });
         }
     }
+
+    /**
+     * This method is responsible for storing the bitmap info in
+     * a file and returning it.
+     */
 
     public static File store(Bitmap bm, String fileName, File saveFilePath) {
         File dir = new File(saveFilePath.getAbsolutePath());
@@ -265,7 +299,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.Viewholder>{
         return file;
     }
 
-    /*
+    /**
      * This method is responsible for getting the main directory for
      * storing.
      */

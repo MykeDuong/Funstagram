@@ -1,3 +1,7 @@
+/*
+ * This class is our PostActiity which allows the user to post
+ * his/her choice of image taken from the device camera.
+ */
 package com.minhsoumay.funstagram;
 
 import androidx.annotation.NonNull;
@@ -56,8 +60,6 @@ public class PostActivity extends AppCompatActivity {
     private ImageView imageAdded;
     private TextView post;
     EditText description;
-
-    Activity cropImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
