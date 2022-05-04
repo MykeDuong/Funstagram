@@ -19,6 +19,12 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+/**
+ * @author: Soumay Agarwal
+ * COURSE: CSC 317 - Spring 2022
+ * @description: This file contains the PhotoAdapter, which will be used with RecyclerView to
+ *               scroll through photos.
+ */
 public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> {
 
     private Context mContext;

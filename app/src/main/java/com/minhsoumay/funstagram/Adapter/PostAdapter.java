@@ -1,7 +1,3 @@
-/*
- * This class is our PostAdapter which sets up each post of a user and the
- * people he/she follows from the firebase in our Home page.
- */
 package com.minhsoumay.funstagram.Adapter;
 
 import android.app.Activity;
@@ -41,6 +37,12 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Soumay Agarwal
+ * COURSE: CSC 317 - Spring 2022
+ * @description This class is our PostAdapter which sets up each post of a user and the
+ * people he/she follows from the firebase in our Home page.
+ */
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.Viewholder>{
 
     private Context mcontext;
@@ -60,6 +62,12 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.Viewholder>{
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
     }
 
+    /**
+     * This method is run when the ViewHolder is created.
+     * @param parent    The ViewGroup.
+     * @param viewType  The int showing the type of the view.
+     * @return
+     */
     @NonNull
     @Override
     public Viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -163,9 +171,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.Viewholder>{
 
     }
 
-
+    /**
+     * This method checks if a post (and thus an image) has been saved or not.
+     * @param postId    The id of the post to check
+     * @param image     The image of the post.
+     */
     private void isSaved (final String postId, final ImageView image) {
-        FirebaseDatabase.getInstance().getReference().child("Saves").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference().child("Saves").child(FirebaseAuth.
+                getInstance().getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 System.out.println(postId + "in save");
@@ -181,17 +194,15 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.Viewholder>{
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
+            public void onCancelled(@NonNull DatabaseError databaseError) {}
         });
     }
 
     /**
      * This method is responsible for getting the no. of likes of a particular post
      * from the firebase and then displaying it to the user.
+     * @return int
      */
-
     @Override
     public int getItemCount() {
         return mposts.size();
@@ -261,7 +272,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.Viewholder>{
      * @param postId The id of a particular post
      * @param text Provided TextView for number of likes whose number of likes need to be set
      */
-
     private void noOfLikes (String postId, final TextView text) {
         if (postId != null) {
             FirebaseDatabase.getInstance().getReference().child("Likes").child(postId).addValueEventListener(new ValueEventListener() {
@@ -281,8 +291,10 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.Viewholder>{
     /**
      * This method is responsible for storing the bitmap info in
      * a file and returning it.
+     * @param bm            The bitmap of the image
+     * @param fileName      The name of the file
+     * @param saveFilePath  The path that the file is saved
      */
-
     public static File store(Bitmap bm, String fileName, File saveFilePath) {
         File dir = new File(saveFilePath.getAbsolutePath());
         if (!dir.exists())
@@ -302,8 +314,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.Viewholder>{
     /**
      * This method is responsible for getting the main directory for
      * storing.
+     * @param context   The Context of the app.
      */
-
     public static File getMainDirectoryName(Context context) {
         File mainDir = new File(
                 context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "Demo");

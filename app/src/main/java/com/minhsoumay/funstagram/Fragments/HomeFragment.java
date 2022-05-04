@@ -1,9 +1,3 @@
-/*
- * This class is our HomeFragment that represents the home page.
- * Here we are able to see our posts as well as the posts of the
- * people we follow. We can do various things here which include liking,
- * saving and sharing a post.
- */
 package com.minhsoumay.funstagram.Fragments;
 
 import android.os.Bundle;
@@ -29,6 +23,14 @@ import com.minhsoumay.funstagram.R;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Soumay Agarwal
+ * COURSE: CSC 317 - Spring 2022
+ * @description This class is our HomeFragment that represents the home page.
+ * Here we are able to see our posts as well as the posts of the
+ * people we follow. We can do various things here which include liking,
+ * saving and sharing a post.
+ */
 public class HomeFragment extends Fragment {
 
     private RecyclerView recyclerViewPosts;

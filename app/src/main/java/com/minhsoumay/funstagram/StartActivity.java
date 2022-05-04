@@ -12,6 +12,12 @@ import android.widget.LinearLayout;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+/**
+ * @author: Minh Duong
+ * COURSE: CSC 317 - Spring 2022
+ * @description: This file contains the StartActivity of the app Funstagram, which allows the
+ *               user to choose whether they want to register or log in to get into the app.
+ */
 public class StartActivity extends AppCompatActivity {
 
     private ImageView iconImage;
@@ -19,6 +25,11 @@ public class StartActivity extends AppCompatActivity {
     private android.widget.Button register;
     private android.widget.Button login;
 
+    /**
+     * This method is the on create method which sets the content view and
+     * displays the content.
+     * @param savedInstanceState    The save instance of the activity.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,18 +52,27 @@ public class StartActivity extends AppCompatActivity {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(StartActivity.this, RegisterActivity.class).addFlags((Intent.FLAG_ACTIVITY_CLEAR_TASK) | Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                startActivity(new Intent(StartActivity.this, RegisterActivity.class).
+                        addFlags((Intent.FLAG_ACTIVITY_CLEAR_TASK) |
+                                  Intent.FLAG_ACTIVITY_CLEAR_TOP));
             }
         });
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(StartActivity.this, LoginActivity.class).addFlags((Intent.FLAG_ACTIVITY_CLEAR_TASK) | Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                startActivity(new Intent(StartActivity.this, LoginActivity.class).
+                        addFlags((Intent.FLAG_ACTIVITY_CLEAR_TASK) |
+                                  Intent.FLAG_ACTIVITY_CLEAR_TOP));
             }
         });
     }
 
+    /**
+     * This method is used to skip the log in part of the app when the user has already logged
+     * in. However, as the log out functionality has yet been implemented, the code in this
+     * method is commented out.
+     */
     @Override
     protected void onStart() {
         super.onStart();
@@ -64,6 +84,10 @@ public class StartActivity extends AppCompatActivity {
         */
     }
 
+    /**
+     * This class implements the AnimationListener class of the Animation. It creates the
+     * behavior of the animation when the it ends.
+     */
     private class MyAnimationListener implements Animation.AnimationListener {
 
         @Override

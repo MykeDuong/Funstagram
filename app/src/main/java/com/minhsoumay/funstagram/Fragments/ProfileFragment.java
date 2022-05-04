@@ -1,8 +1,3 @@
-/*
- * This class is our ProfileFragment that represents the profile page.
- * Here we are able to see all of our own posts and our saved posts.
- * Users are able to edit their profile here as well.
- */
 package com.minhsoumay.funstagram.Fragments;
 
 import android.content.Context;
@@ -45,6 +40,13 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+/**
+ * @author Soumay Agarwal
+ * COURSE: CSC 317 - Spring 2022
+ * @description This class is our ProfileFragment that represents the profile page.
+ * Here we are able to see all of our own posts and our saved posts. Users are able to edit
+ * their profile here as well.
+ */
 public class ProfileFragment extends Fragment {
 
 
@@ -91,7 +93,8 @@ public class ProfileFragment extends Fragment {
 
         fUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        String data = getContext().getSharedPreferences("profile", Context.MODE_PRIVATE).getString("profileId", "none");
+        String data = getContext().getSharedPreferences("profile", Context.MODE_PRIVATE).
+                getString("profileId", "none");
 
         if (data.equals("none")) {
             profileId = fUser.getUid();
@@ -201,10 +204,6 @@ public class ProfileFragment extends Fragment {
                 recyclerViewSaves.setVisibility(View.VISIBLE);
             }
         });
-
-
-
-
         return view;
     }
 
@@ -246,12 +245,9 @@ public class ProfileFragment extends Fragment {
 
                     }
                 });
-
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         });
 
@@ -261,7 +257,6 @@ public class ProfileFragment extends Fragment {
      * This method is responsible for storing all the user photos
      * the myPhotoList Post List.
      */
-
     private void myPhotos() {
 
         FirebaseDatabase.getInstance().getReference().child("Posts").addValueEventListener(new ValueEventListener() {
@@ -291,7 +286,6 @@ public class ProfileFragment extends Fragment {
      * This method is responsible for getting and displaying the number of posts
      * of the user.
      */
-
     private void getPostCount() {
 
         FirebaseDatabase.getInstance().getReference().child("Posts").addValueEventListener(new ValueEventListener() {
@@ -319,7 +313,6 @@ public class ProfileFragment extends Fragment {
      * This method is responsible for getting and displaying the followers and the following
      * count of the user.
      */
-
     private void getFollowersAndFollowingCount() {
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Follow").child(profileId);
@@ -381,7 +374,6 @@ public class ProfileFragment extends Fragment {
      * This method is responsible for checking whether the current user
      * is following a particular user or not.
      */
-
     private void checkFollowingStatus() {
 
         FirebaseDatabase.getInstance().getReference().child("Follow").child(fUser.getUid()).child("following").addValueEventListener(new ValueEventListener() {

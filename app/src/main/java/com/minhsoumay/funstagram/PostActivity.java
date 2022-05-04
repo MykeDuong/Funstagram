@@ -47,6 +47,13 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+/**
+ * @author: Minh Duong
+ * COURSE: CSC 317 - Spring 2022
+ * @description: This file contains the PostActivity of the app Funstagram, which allows the
+ *               user to make a post. A post will have a picture and a description, and the picture
+ *               will be provided through the Camera Intent.
+ */
 public class PostActivity extends AppCompatActivity {
 
     private Uri imageUri;
@@ -61,6 +68,12 @@ public class PostActivity extends AppCompatActivity {
     private TextView post;
     EditText description;
 
+    /**
+     * This method is the on create method which sets the content view and
+     * displays the content. When the user clicks on the post button, it will push the information
+     * of the post to Firebase.
+     * @param savedInstanceState    The save instance of the activity.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,6 +105,9 @@ public class PostActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * This method uploads the post to Firebase with the provided information.
+     */
     private void upload() {
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Posting");
@@ -100,7 +116,8 @@ public class PostActivity extends AppCompatActivity {
         System.out.println(imageUri + "the im uri");
         if (imageUri != null){
             System.out.println(storageReference);
-            StorageReference fileReference = storageReference.child(System.currentTimeMillis() + "." + getFileExtension(imageUri));
+            StorageReference fileReference = storageReference.child(System.currentTimeMillis() +
+                    "." + getFileExtension(imageUri));
 
             uploadTask = fileReference.putFile(imageUri);
             uploadTask.continueWithTask(new Continuation() {
@@ -119,7 +136,8 @@ public class PostActivity extends AppCompatActivity {
                         Uri downloadUri = task.getResult();
                         imageUrl = downloadUri.toString();
 
-                        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Posts");
+                        DatabaseReference reference = FirebaseDatabase.getInstance().
+                                getReference("Posts");
 
                         String postid = reference.push().getKey();
 
@@ -127,22 +145,26 @@ public class PostActivity extends AppCompatActivity {
                         hashMap.put("postid" , postid);
                         hashMap.put("postimage" , imageUrl);
                         hashMap.put("description" , description.getText().toString());
-                        hashMap.put("publisher" , FirebaseAuth.getInstance().getCurrentUser().getUid());
+                        hashMap.put("publisher" , FirebaseAuth.getInstance().
+                                getCurrentUser().getUid());
 
                         reference.child(postid).setValue(hashMap);
 
                         progressDialog.dismiss();
 
-                        startActivity(new Intent(PostActivity.this , MainActivity.class));
+                        startActivity(new Intent(PostActivity.this ,
+                                MainActivity.class));
                         finish();
                     } else {
-                        Toast.makeText(PostActivity.this, "Failed!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PostActivity.this, "Failed!",
+                                Toast.LENGTH_SHORT).show();
                     }
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(PostActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PostActivity.this, e.getMessage(),
+                            Toast.LENGTH_SHORT).show();
                 }
             });
         } else {
@@ -151,8 +173,14 @@ public class PostActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * This method is used to get the file extension of an image.
+     * @param imageUri
+     * @return
+     */
     private String getFileExtension(Uri imageUri) {
-        return MimeTypeMap.getSingleton().getExtensionFromMimeType(this.getContentResolver().getType(imageUri));
+        return MimeTypeMap.getSingleton().
+                           getExtensionFromMimeType(this.getContentResolver().getType(imageUri));
     }
 
     /**

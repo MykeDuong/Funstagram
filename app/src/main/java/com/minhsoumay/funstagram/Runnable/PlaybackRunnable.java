@@ -5,6 +5,12 @@ import android.media.MediaPlayer;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+/**
+ * @author: Minh Duong
+ * COURSE: CSC 317 - Spring 2022
+ * @description: This file contains the PlaybackRunnable of the app Funstagram, which allows the
+ *               user to log listen to audio provided by the app.
+ */
 public class PlaybackRunnable implements Runnable {
     Context context;
     AppCompatActivity invokerActivity;

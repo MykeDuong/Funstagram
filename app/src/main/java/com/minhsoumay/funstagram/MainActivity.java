@@ -15,11 +15,24 @@ import com.minhsoumay.funstagram.Fragments.HomeFragment;
 import com.minhsoumay.funstagram.Fragments.ProfileFragment;
 import com.minhsoumay.funstagram.Fragments.SearchFragment;
 
+/**
+ * @author: Minh Duong
+ * COURSE: CSC 317 - Spring 2022
+ * @description: This file contains the MainActivity of the app Funstagram. It holds the container
+ *               for the home, search and profile fragments, while also containing buttons to
+ *               navigate to other functionalities of the app.
+ */
 public class MainActivity extends AppCompatActivity {
 
     private BottomNavigationView bottomNavigationView;
     private Fragment selectorFragment;
 
+    /**
+     * This method is the on create method which sets the content view and
+     * displays the content. The navigation buttons will listen to the clicks, and the
+     * corresponding functionality of the app will be shown.
+     * @param savedInstanceState    The save instance of the activity.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

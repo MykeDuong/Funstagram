@@ -27,6 +27,15 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
 
+/**
+ * @author: Minh Duong
+ * COURSE: CSC 317 - Spring 2022
+ * @description: This file contains the RegisterActivity of the app Funstagram, which allows the
+ *               user to register for a new user in the platform. The necessary information
+ *               includes the full name, the username, the email and a password with more than
+ *               6 characters. It will make a connection to the database on Firebase to do such
+ *               task.
+ */
 public class RegisterActivity extends AppCompatActivity {
 
     Context context;
@@ -44,6 +53,13 @@ public class RegisterActivity extends AppCompatActivity {
 
     ProgressDialog pd;
 
+    /**
+     * This method is the on create method which sets the content view and
+     * displays the content. When the user clicks on the register button, the given information
+     * will be used to create the user on Firebase, and the user will be automatically logged into
+     * the platform.
+     * @param savedInstanceState    The save instance of the activity.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         FirebaseApp.initializeApp(this);
@@ -94,6 +110,14 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * This method is used to register the user on Firebase using given information. It will
+     * create the user, and otherwise inform the exception when failed.
+     * @param username  The username of the user
+     * @param name      The name of the user
+     * @param email     The email of the user
+     * @param password  The password of the user
+     */
     private void registerUser(String username, String name, String email, String password) {
 
         pd.setMessage("Please wait...");

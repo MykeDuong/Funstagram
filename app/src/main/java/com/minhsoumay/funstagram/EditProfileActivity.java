@@ -53,6 +53,13 @@ import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+/**
+ * @author: Soumay Agarwal
+ * COURSE: CSC 317 - Spring 2022
+ * @description: This file contains the EditProfileActivity of the app Funstagram, which allows
+ *               the user to update their profile with new name, username and a biography. The
+ *               user can also be able to set a welcome voice to their profile page.
+ */
 public class EditProfileActivity extends AppCompatActivity {
 
     private ImageView close;
@@ -178,7 +185,9 @@ public class EditProfileActivity extends AppCompatActivity {
         });
     }
 
-<<<<<<< HEAD
+    /**
+     * This method is used to update the TextView containing the status of the chosen audio
+     */
     private void updateAudioText() {
         if (chosenAudio == null) {
             changeAudio.setText("Change Welcome Voice - No choice saved");
@@ -248,15 +257,13 @@ public class EditProfileActivity extends AppCompatActivity {
                 res);
         (new Thread(pr)).start();
     }
-=======
+
     /**
      * This function is used to create a image file in the form of a JPEG. It also
      * uses the current date to create a unique file name each time.
      * @return image
      * @throws IOException
      */
->>>>>>> soma-branch
-
     public File createImageFile() throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
@@ -274,7 +281,6 @@ public class EditProfileActivity extends AppCompatActivity {
      * This method is responsible for updating the username and the bio
      * for a particular user on the firebase with the use of a HashMap.
      */
-
     private void updateProfile() {
         HashMap<String, Object> map = new HashMap<>();
         map.put("username", username.getText().toString());
@@ -288,7 +294,6 @@ public class EditProfileActivity extends AppCompatActivity {
      * This method is responsible for uploading the image to the firebase
      * and obtaining the download URL.
      */
-
     private void uploadImage() {
         final ProgressDialog pd = new ProgressDialog(this);
         pd.setMessage("Uploading");
