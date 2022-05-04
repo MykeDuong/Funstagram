@@ -6,10 +6,13 @@
     <string name="register_button">Register</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="help_body_para">Funstagram is essentially a basic clone of Instagram. It tries to mimic its functionality. In this
+    <string name="help_body_para">Funstagram is essentially a basic clone of Instagram. It tries to mimic its functionality.\n\nIn this
     app we have the home page which shows all the images that the user has taken and the images that are taken by other people followed
     by the user. Each post displays the username of the author and the description about the image. Here we have the ability to like (as well as see the total likes) and save the post.
-        We can also share the post with our the contacts in our phone through mail.
-    The profile fragment shows information about the user. It allows us it to see the number of his/her followers and the number of people he follows.
-    We can also see our saved images in the profile page. We also have the feature to edit the user profile </string>
+        We can also share the post with our the contacts in our phone through mail.\n\nWhen the user enters the application he/she needs to register or log in. If the user registers then
+        he/she will recieve a welcome mail.\n\nThe profile fragment shows information about the user. It allows us it to see the number of his/her followers and the number of people he follows.
+    We can also see our saved images in the profile page.\n\nWe also have the feature to edit the user profile and customize a welcome sound. In the edit profile we allow
+        the user to change his/her profile photo and their username and their bio.\n\nIn the search page we can search for other users and follow them. \n\nIn the post page we can take a picture from the
+    device camera and post it with a particular decription.\n\n\n\n\n </string>
+    <string name="wel_fun">Welcome to Funstagram</string>
 </resources>

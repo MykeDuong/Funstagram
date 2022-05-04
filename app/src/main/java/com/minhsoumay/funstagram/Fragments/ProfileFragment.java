@@ -148,13 +148,13 @@ public class ProfileFragment extends Fragment {
             public void onClick(View view) {
                 int res = 0;
                 System.out.println(chosenAudio);
+                if (chosenAudio == null) return;
                 if (chosenAudio.equals("Male")) { res = R.raw.male; }
                 else if (chosenAudio.equals("Female")) { res = R.raw.female; }
                 else if (chosenAudio.equals("Fantasy")) { res = R.raw.fantasy; }
                 else if (chosenAudio.equals("Haunted")) { res = R.raw.haunted; }
 
 
-                if (chosenAudio == null) return;
                 PlaybackRunnable pr = new PlaybackRunnable((AppCompatActivity)getActivity(),
                         getContext(),
                         res);
