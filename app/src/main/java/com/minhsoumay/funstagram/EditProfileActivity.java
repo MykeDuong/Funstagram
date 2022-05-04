@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -36,6 +37,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 
 import com.minhsoumay.funstagram.Model.User;
+import com.minhsoumay.funstagram.Runnable.PlaybackRunnable;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -55,6 +57,19 @@ public class EditProfileActivity extends AppCompatActivity {
     private EditText fullname;
     private EditText username;
     private EditText bio;
+
+    private TextView changeAudio;
+
+    private Button male;
+    private Button female;
+    private Button fantasy;
+    private Button haunted;
+    private Button maleTry;
+    private Button femaleTry;
+    private Button fantasyTry;
+    private Button hauntedTry;
+
+    private String chosenAudio;
 
     private FirebaseUser fUser;
 
@@ -78,6 +93,18 @@ public class EditProfileActivity extends AppCompatActivity {
         username = findViewById(R.id.username);
         bio = findViewById(R.id.bio);
 
+        changeAudio = findViewById(R.id.change_audio);
+
+        male = findViewById(R.id.male);
+        female = findViewById(R.id.female);
+        fantasy = findViewById(R.id.fantasy);
+        haunted = findViewById(R.id.haunted);
+
+        maleTry = findViewById(R.id.male_try);
+        femaleTry = findViewById(R.id.female_try);
+        fantasyTry = findViewById(R.id.fantasy_try);
+        hauntedTry = findViewById(R.id.haunted_try);
+
         fUser = FirebaseAuth.getInstance().getCurrentUser();
         storageRef = FirebaseStorage.getInstance().getReference().child("Uploads");
 
@@ -88,6 +115,9 @@ public class EditProfileActivity extends AppCompatActivity {
                 fullname.setText(user.getName());
                 username.setText(user.getUsername());
                 bio.setText(user.getBio());
+                chosenAudio = user.getAudioChoice();
+                System.out.println(chosenAudio);
+                updateAudioText();
                 Picasso.get().load(user.getImageurl()).into(imageProfile);
             }
 
@@ -147,6 +177,75 @@ public class EditProfileActivity extends AppCompatActivity {
         });
     }
 
+    private void updateAudioText() {
+        if (chosenAudio == null) {
+            changeAudio.setText("Change Welcome Voice - No choice saved");
+        } else {
+            changeAudio.setText("Change Welcome Voice - Current : " + chosenAudio);
+        }
+    }
+
+    public void onClickChangeAudio(View view) {
+        Button b = (Button) view;
+        String targetAudio = b.getText().toString();
+        if (targetAudio.equals("REMOVE VOICE")) {
+            chosenAudio = null;
+        } else {chosenAudio = targetAudio;}
+        updateAudioText();
+    }
+
+    /**
+     * This method is called when the first sound button is clicked. It
+     * call the playback function below, which will create a runnable object
+     * to play the sound.
+     * @param view
+     */
+    public void onClickButtonMaleTry(View view) {
+        playback(R.raw.male);
+    }
+
+    /**
+     * This method is called when the second sound button is clicked. It
+     * call the playback function below, which will create a runnable object
+     * to play the sound.
+     * @param view
+     */
+    public void onClickButtonFemaleTry(View view) {
+        playback(R.raw.female);
+    }
+
+    /**
+     * This method is called when the third sound button is clicked. It
+     * call the playback function below, which will create a runnable object
+     * to play the sound.
+     * @param view
+     */
+    public void onClickButtonFanatasyTry(View view) {
+        playback(R.raw.fantasy);
+    }
+
+    /**
+     * This method is called when the fourth sound button is clicked. It
+     * call the playback function below, which will create a runnable object
+     * to play the sound.
+     * @param view
+     */
+    public void onClickButtonHauntedTry(View view) {
+        playback(R.raw.haunted);
+    }
+
+    /**
+     * This method is used to play the sound effect, by creating a new
+     * PlaybackRunnable object (given in this project), which will then
+     * play the sound in a new thread.
+     * @param res
+     */
+    public void playback(int res) {
+        PlaybackRunnable pr = new PlaybackRunnable(this,
+                getApplicationContext(),
+                res);
+        (new Thread(pr)).start();
+    }
 
     public File createImageFile() throws IOException {
         // Create an image file name
@@ -166,6 +265,7 @@ public class EditProfileActivity extends AppCompatActivity {
         map.put("fullname", fullname.getText().toString());
         map.put("username", username.getText().toString());
         map.put("bio", bio.getText().toString());
+        map.put("audioChoice", chosenAudio);
 
         FirebaseDatabase.getInstance().getReference().child("Users").child(fUser.getUid()).updateChildren(map);
     }

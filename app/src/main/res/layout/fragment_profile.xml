@@ -61,26 +61,26 @@
                 android:orientation="horizontal"
                 android:id="@+id/top"
                 android:padding="15dp">
+
                 <!-- Change this to the circularimage-->
                 <androidx.cardview.widget.CardView
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+                    android:layout_width="85dp"
+                    android:layout_height="85dp"
                     android:elevation="12dp"
                     android:id="@+id/cardview2"
                     app:cardCornerRadius="40dp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_margin="5dp">
+                    android:layout_marginTop="5dp">
 
-                <ImageView
-                    android:layout_height="80dp"
-                    android:layout_width="match_parent"
-                    android:id="@+id/image_profile"
-                    android:scaleType="centerCrop"/>
+                    <ImageView
+                        android:id="@+id/image_profile"
+                        android:layout_width="match_parent"
+                        android:layout_height="85dp"
+                        android:scaleType="centerCrop" />
                 </androidx.cardview.widget.CardView>
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="80dp"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:paddingStart="20dp"
                     android:paddingEnd="5dp">
@@ -97,19 +97,19 @@
                             android:orientation="vertical">
 
                             <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
                                 android:id="@+id/posts"
-                                android:textColor="@color/primary_dark_color"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:textStyle="bold"
-                                android:textSize="18sp"/>
+                                android:textColor="@color/primary_dark_color"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textSize="10sp"
-                                android:text="POSTS"/>
+                                android:text="POSTS"
+                                android:textSize="10sp" />
 
                         </LinearLayout>
 
@@ -120,19 +120,19 @@
                             android:orientation="vertical">
 
                             <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
                                 android:id="@+id/followers"
-                                android:textColor="@color/primary_dark_color"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:textStyle="bold"
-                                android:textSize="18sp"/>
+                                android:textColor="@color/primary_dark_color"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textSize="10sp"
-                                android:text="FOLLOWERS"/>
+                                android:text="FOLLOWERS"
+                                android:textSize="10sp" />
 
                         </LinearLayout>
 
@@ -143,32 +143,41 @@
                             android:orientation="vertical">
 
                             <TextView
+                                android:id="@+id/following"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:id="@+id/following"
-                                android:textColor="@color/primary_dark_color"
                                 android:layout_gravity="center"
-                                android:textStyle="bold"
-                                android:textSize="18sp"/>
+                                android:textColor="@color/primary_dark_color"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textSize="10sp"
-                                android:text="FOLLOWING"/>
+                                android:text="FOLLOWING"
+                                android:textSize="10sp" />
 
                         </LinearLayout>
 
                     </LinearLayout>
 
                     <Button
+                        android:id="@+id/play_audio"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="5dp"
+                        android:layout_height="30dp"
                         android:layout_marginTop="10dp"
+                        android:padding="1dp"
+                        android:text="WELCOME VOICE"
+                        android:textSize="10dp" />
+
+                    <Button
+                        android:id="@+id/edit_profile"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginTop="5dp"
+                        android:padding="1dp"
                         android:text="EDIT PROFILE"
-                        android:textSize="10dp"
-                        android:id="@+id/edit_profile"/>
+                        android:textSize="10dp" />
 
                 </LinearLayout>
 
@@ -205,7 +214,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginStart="5dp"
-                android:layout_marginEnd="-5dp"
+                android:layout_marginEnd="5dp"
                 android:id="@+id/bottom"
                 android:orientation="horizontal">
 

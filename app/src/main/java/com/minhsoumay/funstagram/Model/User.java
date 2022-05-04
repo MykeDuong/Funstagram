@@ -7,17 +7,20 @@ public class User {
     private String bio;
     private String imageurl;
     private String id;
+    private String audioChoice;
 
     public User() {
     }
 
-    public User(String name, String email, String username, String bio, String imageurl, String id) {
+    public User(String name, String email, String username, String bio, String imageurl,
+                String id, String audioChoice) {
         this.name = name;
         this.email = email;
         this.username = username;
         this.bio = bio;
         this.imageurl = imageurl;
         this.id = id;
+        this.audioChoice = audioChoice;
     }
 
     public String getName() {
@@ -67,4 +70,10 @@ public class User {
     public void setId(String id) {
         this.id = id;
     }
+
+    public String getAudioChoice() {
+        return audioChoice;
+    }
+
+    public void setAudioChoice(String audioChoice) { this.audioChoice = audioChoice; }
 }

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,9 +26,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.minhsoumay.funstagram.Adapter.PhotoAdapter;
 import com.minhsoumay.funstagram.EditProfileActivity;
+import com.minhsoumay.funstagram.MainActivity;
 import com.minhsoumay.funstagram.Model.Post;
 import com.minhsoumay.funstagram.Model.User;
+import com.minhsoumay.funstagram.PostActivity;
 import com.minhsoumay.funstagram.R;
+import com.minhsoumay.funstagram.Runnable.PlaybackRunnable;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -56,10 +60,12 @@ public class ProfileFragment extends Fragment {
     private TextView fullname;
     private TextView bio;
     private TextView username;
+    private String chosenAudio;
 
     private ImageView myPictures;
     private ImageView savedPictures;
 
+    private Button playAudio;
     private Button editProfile;
 
     private FirebaseUser fUser;
@@ -92,6 +98,7 @@ public class ProfileFragment extends Fragment {
         username = view.findViewById(R.id.username);
         myPictures = view.findViewById(R.id.my_pictures);
         savedPictures = view.findViewById(R.id.saved_pictures);
+        playAudio = view.findViewById(R.id.play_audio);
         editProfile = view.findViewById(R.id.edit_profile);
 
         recyclerView = view.findViewById(R.id.recucler_view_pictures);
@@ -121,6 +128,26 @@ public class ProfileFragment extends Fragment {
         else{
             checkFollowingStatus();
         }
+
+        playAudio.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                int res = 0;
+                System.out.println(chosenAudio);
+                if (chosenAudio.equals("Male")) { res = R.raw.male; }
+                else if (chosenAudio.equals("Female")) { res = R.raw.female; }
+                else if (chosenAudio.equals("Fantasy")) { res = R.raw.fantasy; }
+                else if (chosenAudio.equals("Haunted")) { res = R.raw.haunted; }
+
+
+                if (chosenAudio == null) return;
+                PlaybackRunnable pr = new PlaybackRunnable((AppCompatActivity)getActivity(),
+                        getContext(),
+                        res);
+                (new Thread(pr)).start();
+            }
+        });
 
         editProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -164,6 +191,8 @@ public class ProfileFragment extends Fragment {
                 recyclerViewSaves.setVisibility(View.VISIBLE);
             }
         });
+
+
 
 
         return view;
@@ -294,7 +323,8 @@ public class ProfileFragment extends Fragment {
 
     private void userInfo() {
 
-        FirebaseDatabase.getInstance().getReference().child("Users").child(profileId).addValueEventListener(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference().child("Users").child(profileId)
+                .addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.getValue(User.class);
@@ -303,6 +333,7 @@ public class ProfileFragment extends Fragment {
                 username.setText(user.getUsername());
                 fullname.setText(user.getName());
                 bio.setText(user.getBio());
+                chosenAudio = user.getAudioChoice();
             }
 
             @Override
