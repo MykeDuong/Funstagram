@@ -1,3 +1,7 @@
+/*
+ * This class is our ShareFragment that represents the share functionality.
+ * Here we are able to share our post image with our contacts through email.
+ */
 package com.minhsoumay.funstagram.Fragments;
 
 import android.annotation.SuppressLint;
@@ -37,17 +41,21 @@ public class ShareFragment extends Fragment {
 
 
     public ShareFragment() {
-        // Required empty public constructor
     }
 
     public void setContainerActivity(View.OnClickListener containerActivity) {
         this.containerActivity = containerActivity;
     }
 
+    /**
+     * This method is the on create view method
+     * which displays the content. Here we are
+     * doing the main work of sharing the image with our
+     * contacts through email.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         inflatedView = inflater.inflate(R.layout.fragment_share, container, false);
         ListView listView = inflatedView.findViewById(R.id.contact_list_view);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -90,7 +98,7 @@ public class ShareFragment extends Fragment {
         return inflatedView;
     }
 
-    /*
+    /**
      * This method is the on create
      * method.
      */
@@ -101,7 +109,7 @@ public class ShareFragment extends Fragment {
         getContacts();
     }
 
-    /*
+    /**
      * This method is the on Resume
      * method.
      */
@@ -112,7 +120,7 @@ public class ShareFragment extends Fragment {
         setupContactsAdapter();
     }
 
-    /*
+    /**
      * This method is responsible for getting the name and ids
      * of all the contacts from our contacts app and add it to
      * the contacts list.
@@ -134,7 +142,7 @@ public class ShareFragment extends Fragment {
         cursor.close();
     }
 
-    /*
+    /**
      * This method is responsible for setting the contacts
      * ArrayAdapter for the listview to display the contact names
      * and their ids.
