@@ -170,14 +170,9 @@
                         android:layout_marginTop="5dp"
                         android:padding="1dp"
                         android:text="EDIT PROFILE"
-<<<<<<< HEAD
-                        android:textSize="10dp" />
-=======
                         android:textSize="10dp"
                         android:backgroundTint="@color/pinkish_red"
-                        android:textColor="@color/blackish"
-                        android:id="@+id/edit_profile"/>
->>>>>>> soma-branch
+                        android:textColor="@color/blackish"/>
 
                 </LinearLayout>
 

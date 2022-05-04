@@ -71,15 +71,6 @@ public class EditProfileActivity extends AppCompatActivity {
 
     private TextView changeAudio;
 
-    private Button male;
-    private Button female;
-    private Button fantasy;
-    private Button haunted;
-    private Button maleTry;
-    private Button femaleTry;
-    private Button fantasyTry;
-    private Button hauntedTry;
-
     private String chosenAudio;
 
     private FirebaseUser fUser;
@@ -113,16 +104,6 @@ public class EditProfileActivity extends AppCompatActivity {
         bio = findViewById(R.id.bio);
 
         changeAudio = findViewById(R.id.change_audio);
-
-        male = findViewById(R.id.male);
-        female = findViewById(R.id.female);
-        fantasy = findViewById(R.id.fantasy);
-        haunted = findViewById(R.id.haunted);
-
-        maleTry = findViewById(R.id.male_try);
-        femaleTry = findViewById(R.id.female_try);
-        fantasyTry = findViewById(R.id.fantasy_try);
-        hauntedTry = findViewById(R.id.haunted_try);
 
         fUser = FirebaseAuth.getInstance().getCurrentUser();
         storageRef = FirebaseStorage.getInstance().getReference().child("Uploads");
